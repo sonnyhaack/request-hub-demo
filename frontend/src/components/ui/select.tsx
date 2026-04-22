@@ -35,13 +35,18 @@ export const SelectContent = React.forwardRef<
   <SelectPrimitive.Portal>
     <SelectPrimitive.Content
       ref={ref}
+      position="popper"
+      sideOffset={4}
+      collisionPadding={8}
       className={cn(
-        "z-50 min-w-[8rem] overflow-hidden rounded-md border border-slate-200 bg-white text-slate-900 shadow-md",
+        "z-50 max-h-[min(var(--radix-select-content-available-height),16rem)] min-w-[8rem] overflow-y-auto rounded-md border border-slate-200 bg-white text-slate-900 shadow-md data-[side=bottom]:translate-y-1 data-[side=top]:-translate-y-1",
         className,
       )}
       {...props}
     >
-      <SelectPrimitive.Viewport className="p-1">{children}</SelectPrimitive.Viewport>
+      <SelectPrimitive.Viewport className="w-[var(--radix-select-trigger-width)] p-1">
+        {children}
+      </SelectPrimitive.Viewport>
     </SelectPrimitive.Content>
   </SelectPrimitive.Portal>
 ))
@@ -54,7 +59,7 @@ export const SelectItem = React.forwardRef<
   <SelectPrimitive.Item
     ref={ref}
     className={cn(
-      "relative flex cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none data-[highlighted]:bg-blue-50 data-[highlighted]:text-blue-900",
+      "relative flex cursor-pointer select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none data-[highlighted]:bg-blue-50 data-[highlighted]:text-blue-900",
       className,
     )}
     {...props}

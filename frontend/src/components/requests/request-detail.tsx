@@ -75,19 +75,32 @@ export function RequestDetail({
     )
   }
 
-  async function handleUpdate(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault()
+  async function updateRequest(nextStatus: RequestStatus, nextPriority: RequestPriority) {
     if (!request) return
     setSaving(true)
     setError(null)
 
     try {
-      await onUpdate(request.id, { status, priority })
+      await onUpdate(request.id, { status: nextStatus, priority: nextPriority })
     } catch (error) {
+      setStatus(request.status)
+      setPriority(request.priority)
       setError(error instanceof Error ? error.message : "Unable to update request.")
     } finally {
       setSaving(false)
     }
+  }
+
+  function handleStatusChange(value: string) {
+    const nextStatus = value as RequestStatus
+    setStatus(nextStatus)
+    void updateRequest(nextStatus, priority)
+  }
+
+  function handlePriorityChange(value: string) {
+    const nextPriority = value as RequestPriority
+    setPriority(nextPriority)
+    void updateRequest(status, nextPriority)
   }
 
   async function handleComment(event: React.FormEvent<HTMLFormElement>) {
@@ -138,17 +151,11 @@ export function RequestDetail({
           </p>
         </div>
 
-        <form
-          className="space-y-3 rounded-lg border border-slate-100 bg-slate-50/60 p-3"
-          onSubmit={handleUpdate}
-        >
+        <div className="space-y-3 rounded-lg border border-slate-100 bg-slate-50/60 p-3">
           <div className="grid gap-3 sm:grid-cols-2">
             <div className="space-y-1.5">
               <Label>Status</Label>
-              <Select
-                value={status}
-                onValueChange={(value) => setStatus(value as RequestStatus)}
-              >
+              <Select value={status} onValueChange={handleStatusChange} disabled={saving}>
                 <SelectTrigger>
                   <span>{statusLabels[status]}</span>
                 </SelectTrigger>
@@ -163,10 +170,7 @@ export function RequestDetail({
             </div>
             <div className="space-y-1.5">
               <Label>Priority</Label>
-              <Select
-                value={priority}
-                onValueChange={(value) => setPriority(value as RequestPriority)}
-              >
+              <Select value={priority} onValueChange={handlePriorityChange} disabled={saving}>
                 <SelectTrigger>
                   <span>{priorityLabels[priority]}</span>
                 </SelectTrigger>
@@ -180,10 +184,10 @@ export function RequestDetail({
               </Select>
             </div>
           </div>
-          <Button type="submit" variant="outline" disabled={saving}>
-            {saving ? "Saving..." : "Update request"}
-          </Button>
-        </form>
+          <p className="text-xs text-slate-500">
+            {saving ? "Saving changes..." : "Changes save when selected."}
+          </p>
+        </div>
 
         <div className="border-t border-slate-100 pt-5">
           <h3 className="text-sm font-semibold text-slate-950">Comments</h3>
