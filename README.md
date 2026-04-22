@@ -39,6 +39,8 @@ Start Demo.bat
 
 It installs missing dependencies, prepares the database, starts the backend and frontend servers, and opens the browser at `http://127.0.0.1:5173/`. Keep the two server windows open while reviewing the app.
 
+The launcher is safe to run again during a demo. It skips sample data loading when requests already exist and reuses existing backend/frontend servers if ports `8000` and `5173` are already active.
+
 Start the backend API first:
 
 ```powershell
