@@ -1,0 +1,48 @@
+[
+  {
+    "model": "requests.request",
+    "pk": 1,
+    "fields": {
+      "title": "Replace office monitor",
+      "description": "The monitor in meeting room 2 flickers during calls.",
+      "requester_name": "Alex",
+      "status": "open",
+      "priority": "high",
+      "created_at": "2026-04-22T10:15:00Z",
+      "updated_at": "2026-04-22T10:15:00Z"
+    }
+  },
+  {
+    "model": "requests.request",
+    "pk": 2,
+    "fields": {
+      "title": "Create onboarding checklist",
+      "description": "HR needs a reusable checklist for new employees.",
+      "requester_name": null,
+      "status": "in_progress",
+      "priority": "medium",
+      "created_at": "2026-04-22T11:30:00Z",
+      "updated_at": "2026-04-22T11:45:00Z"
+    }
+  },
+  {
+    "model": "requests.comment",
+    "pk": 1,
+    "fields": {
+      "request": 1,
+      "author_name": "Morgan",
+      "body": "Confirmed the issue during the morning standup.",
+      "created_at": "2026-04-22T10:30:00Z"
+    }
+  },
+  {
+    "model": "requests.comment",
+    "pk": 2,
+    "fields": {
+      "request": 1,
+      "author_name": null,
+      "body": "Replacement has been ordered.",
+      "created_at": "2026-04-22T11:00:00Z"
+    }
+  }
+]
