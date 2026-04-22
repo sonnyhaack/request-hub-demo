@@ -31,6 +31,14 @@ The demo excludes authentication, authorization, pagination, soft delete, audit 
 
 ## Run The Demo
 
+For a non-technical reviewer on Windows, double-click:
+
+```text
+Start Demo.bat
+```
+
+It installs missing dependencies, prepares the database, starts the backend and frontend servers, and opens the browser at `http://127.0.0.1:5173/`. Keep the two server windows open while reviewing the app.
+
 Start the backend API first:
 
 ```powershell
