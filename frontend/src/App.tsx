@@ -95,8 +95,37 @@ function App() {
   }
 
   async function handleUpdate(id: number, input: PatchRequestInput) {
-    await patchRequest(id, input)
-    await Promise.all([loadList(), loadDetail(id)])
+    const currentRequest = requests.find((request) => request.id === id)
+    const updated = await patchRequest(id, input)
+
+    setRequests((currentRequests) => {
+      const nextRequests = currentRequests.map((request) =>
+        request.id === id ? updated : request,
+      )
+
+      return matchesFilters(updated, filters)
+        ? nextRequests
+        : nextRequests.filter((request) => request.id !== id)
+    })
+
+    setSelectedRequest((currentRequest) =>
+      currentRequest?.id === id ? { ...currentRequest, ...updated } : currentRequest,
+    )
+
+    if (currentRequest && currentRequest.status !== updated.status) {
+      setSummary((currentSummary) =>
+        currentSummary
+          ? {
+              ...currentSummary,
+              [currentRequest.status]: Math.max(
+                currentSummary[currentRequest.status] - 1,
+                0,
+              ),
+              [updated.status]: currentSummary[updated.status] + 1,
+            }
+          : currentSummary,
+      )
+    }
   }
 
   async function handleComment(id: number, input: CreateCommentInput) {
@@ -156,6 +185,13 @@ function App() {
         </div>
       </div>
     </AppShell>
+  )
+}
+
+function matchesFilters(request: RequestListItem, filters: RequestFilters) {
+  return (
+    (!filters.status || request.status === filters.status) &&
+    (!filters.priority || request.priority === filters.priority)
   )
 }
 
