@@ -218,7 +218,7 @@ export function RequestDetail({
         </div>
 
         <form className="space-y-3 border-t border-slate-100 pt-5" onSubmit={handleComment}>
-          <div className="grid gap-3 sm:grid-cols-[180px_1fr]">
+          <div className="space-y-3">
             <div className="space-y-1.5">
               <Label htmlFor="comment-author">Author</Label>
               <Input
@@ -236,6 +236,7 @@ export function RequestDetail({
                 onChange={(event) => setBody(event.target.value)}
                 placeholder="Add a short update"
                 required
+                className="min-h-24"
               />
             </div>
           </div>
@@ -244,9 +245,11 @@ export function RequestDetail({
               {error}
             </div>
           ) : null}
-          <Button type="submit" disabled={commenting}>
-            {commenting ? "Adding..." : "Add comment"}
-          </Button>
+          <div className="flex justify-end">
+            <Button type="submit" disabled={commenting}>
+              {commenting ? "Adding..." : "Add comment"}
+            </Button>
+          </div>
         </form>
       </CardContent>
     </Card>
